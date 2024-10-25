@@ -1,0 +1,15 @@
+---
+- name: Backup running configurations
+  hosts: CSR1kv
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Extract Running Configurations
+      ios_command:
+        commands:
+          - show running-config
+      register: output
+    - name: Save Output to File
+      copy:
+        content: "{{ output.stdout[0] }}"
+        dest: "show_run_65070232_CSR1KV-Pod1-4.txt"
